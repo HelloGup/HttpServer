@@ -3,14 +3,15 @@
 #include <string>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include "Log.hpp"
 
 class Util{
 
     private:
 
     public:
+        //读取一行
         static int ReadLine(int sock,std::string& out){
-
             char ch = 'x';
             while(ch != '\n'){
                 ssize_t ss = recv(sock,&ch,1,0);
@@ -48,5 +49,36 @@ class Util{
 
             //正常结束返回读取到的个数
             return out.size();
+        }
+
+        //切分字符串 不要改变源字符串，使用const
+        static bool CutString(const std::string& target,std::string& out_key,std::string& out_value,std::string sep/*分隔符*/){
+            //自己写
+           // size_t index = 0;
+           // size_t len = target.size();
+           // while(index < len){
+           //     //HTTP协议报头中的每行:后面还有一个空格
+           //     if(target[index] == ':' && index + 1 < len && target[index+1] == ' '){
+           //         index += 2;
+           //         while(index < len){
+           //             out_value += target[index];
+           //             index++;
+           //         }
+           //         break;
+           //     }
+
+           //     out_key += target[index];
+           //     index++;
+           // }
+
+            //库函数
+            size_t pos = target.find(sep);
+            if(pos != std::string::npos){
+               out_key = target.substr(0,pos); 
+               //substr不指定截取多少个，则默认截取到结尾
+               out_value = target.substr(pos + sep.size());
+               return true;
+            }
+            return false;
         }
 };
