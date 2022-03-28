@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Protocol.hpp"
 #include "TcpServer.hpp"
+#include <arpa/inet.h>
+#include <signal.h>
 
 class HttpServer{
     private:
@@ -15,6 +17,10 @@ class HttpServer{
 
         //初始化服务器
         void InitServer(){
+            //需要忽略SIGPIPE信号，如果不忽略，在写入时可能客户端关闭链接
+            //操作系统会通过发送SIGPIPE来终止写端进程,造成服务器奔溃
+            signal(SIGPIPE,SIG_IGN);
+
             svr = TcpServer::GetInstance(port);
         }
 
@@ -34,8 +40,14 @@ class HttpServer{
                     continue;
                 }
 
-                LOG(INFO,"Get a new Link");
-                
+                char buf[16];
+                inet_ntop(AF_INET,(void*)&peer.sin_addr,buf,sizeof(buf)-1); 
+
+                //打印ip port
+                std::string ip_addr = "ip:";
+                ip_addr += buf;
+
+                LOG(INFO,"Get a new Link." + ip_addr); 
                 //创建线程处理请求
                 int *p = new int(sock);
                 pthread_t tid;

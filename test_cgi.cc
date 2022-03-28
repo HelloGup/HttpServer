@@ -81,12 +81,12 @@ int main(){
     CutString(str2,key2,val2,"=");
 
     //给对端发送：子进程的标准输出已经重定向为管道了 此时cout就是往管道里写数据
-    std::cout << key1 << " " << val1 << std::endl;
-    std::cout << key2 << " " << val2 << std::endl;
+    std::cout << key1 << ":" << val1 << std::endl;
+    std::cout << key2 << ":" << val2 << std::endl;
     
     //标准错误打印处理测试下
-    std::cerr << key1 << " " << val1 << std::endl;
-    std::cerr << key2 << " " << val2 << std::endl;
+    //std::cerr << key1 << " " << val1 << std::endl;
+    //std::cerr << key2 << " " << val2 << std::endl;
 
     return 0;
 }
