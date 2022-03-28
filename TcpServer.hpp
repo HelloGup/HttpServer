@@ -26,15 +26,15 @@ class TcpServer{
 
         static TcpServer* GetInstance(int port){
             //静态全局锁初始化即可，不需要使用动态锁的初始化和释放了
-            static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER; 
+            static pthread_mutex_t mtx = PTHREAD_MUTEX_INITIALIZER; 
             if(instance == nullptr){
-                pthread_mutex_lock(&lock);
+                pthread_mutex_lock(&mtx);
                 if(instance == nullptr){
                     instance = new TcpServer(port);
                     instance->InitServer();
                 }
 
-                pthread_mutex_unlock(&lock);
+                pthread_mutex_unlock(&mtx);
             }
             return instance;
         }

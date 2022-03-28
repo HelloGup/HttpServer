@@ -1,17 +1,17 @@
 #include <iostream>
-#include "Protocol.hpp"
 #include "TcpServer.hpp"
 #include <arpa/inet.h>
 #include <signal.h>
+#include "Task.hpp"
+#include "ThreadPool.hpp"
 
 class HttpServer{
     private:
         int port;
-        //tcp服务器
-        TcpServer* svr;
         bool stop;//是否退出
+
     public:
-        HttpServer(int _port):port(_port),svr(nullptr),stop(false){
+        HttpServer(int _port):port(_port),stop(false){
         
         }
 
@@ -20,14 +20,14 @@ class HttpServer{
             //需要忽略SIGPIPE信号，如果不忽略，在写入时可能客户端关闭链接
             //操作系统会通过发送SIGPIPE来终止写端进程,造成服务器奔溃
             signal(SIGPIPE,SIG_IGN);
-
-            svr = TcpServer::GetInstance(port);
         }
 
         void Loop(){
 
             LOG(INFO,"Loop Begin");
 
+            //tcp服务器
+            TcpServer* svr = TcpServer::GetInstance(port);
             int listen_sock = svr->Sock();
 
             while(!stop){
@@ -48,11 +48,19 @@ class HttpServer{
                 ip_addr += buf;
 
                 LOG(INFO,"Get a new Link." + ip_addr); 
+
+                //构建任务
+                //使用线程池处理任务
+                Task* t = new Task(sock);
+                ThreadPool::GetInstance()->Push(t);
+
+                /*
                 //创建线程处理请求
                 int *p = new int(sock);
                 pthread_t tid;
                 pthread_create(&tid,nullptr,Entrance::HanderRequest,p);
                 pthread_detach(tid);
+                */
             }
         }
 

@@ -138,6 +138,7 @@ class EndPoint{
                 stop = true;
             }
 
+            LOG(INFO,line);
             return stop;
         }
 
@@ -647,28 +648,19 @@ END://构建响应
 
 //#define DEBUG 1;
 
-class Entrance{
+//回调
+class CallBack{
     public:
+
+        void operator()(int sock){
+            HandlerRequest(sock);
+        }
+        
         //处理请求函数
-        static void* HanderRequest(void* _sock){
+        void HandlerRequest(int sock){
             LOG(INFO,"Hander Request Begin");
 
-            int sock = (*(int*)_sock);
-
-            //释放堆中开辟的空间
-            delete (int*)_sock;
-            //std::cout << "get a new link...:" << sock << std::endl;
-
-#ifdef DEBUG
-            //For Test
-            char buffer[4096];
-            recv(sock,buffer,sizeof(buffer),0);
-            std::cout << "--------------------begin------------------" << std::endl;
-            std::cout << buffer << std::endl;
-            std::cout << "--------------------end------------------" << std::endl;
-
-#else
-
+            //处理请求
             EndPoint* ep = new EndPoint(sock);
             ep->RecvRequest();
 
@@ -685,8 +677,10 @@ class Entrance{
 
             delete ep;
 
-#endif
             LOG(INFO,"Hander Request End");
-            return nullptr;
+        }
+
+        ~CallBack(){
+
         }
 };
