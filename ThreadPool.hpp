@@ -53,12 +53,10 @@ class ThreadPool{
             pthread_mutex_init(&mtx,nullptr);
             pthread_cond_init(&cod,nullptr);
 
-            LOG(INFO,"Init success.");
-
             pthread_t tid;
             for(int i = 0;i < max_num;i++){
                 if(pthread_create(&tid,nullptr,Routine,this) != 0){
-                    LOG(FATAL,"ThreadPool Create Error.");
+                    LOG(FATAL,"Thread Create Error.");
                     return false;
                 }
                 else{
@@ -66,6 +64,7 @@ class ThreadPool{
                 }
             }
 
+            LOG(INFO,"ThreadPool Init Success.");
             return true;
         }
 

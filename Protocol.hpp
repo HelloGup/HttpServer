@@ -164,6 +164,18 @@ class EndPoint{
                 //不是空行添加进请求报头数组中
                 //去除'\n'
                 line.resize(line.size()-1);
+
+                //打印个别报头查看
+                if(line.find("Host") != std::string::npos){
+                    LOG(INFO,line);
+                }
+                else if(line.find("User-Agent") != std::string::npos){
+                    LOG(INFO,line);
+                }
+                else if(line.find("Referer") != std::string::npos){
+                    LOG(INFO,line);
+                }
+
                 http_Request.request_header.push_back(line);
             }
 
@@ -240,6 +252,7 @@ class EndPoint{
                         break;
                     }
                 }
+                LOG(INFO,"正文：\n" + body);
             }
 
             return stop;
@@ -678,9 +691,6 @@ class CallBack{
             delete ep;
 
             LOG(INFO,"Hander Request End");
-        }
-
-        ~CallBack(){
-
+            std::cout << std::endl;
         }
 };

@@ -394,110 +394,112 @@
           </div>
 
           <div class="row row-custom">
-            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+              <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 
-              <!-- Section numbers -->
-              <div class="numbers-items contacts-items">
-                <div class="numbers-item scrolla-element-anim-1 scroll-animate" data-animate="active">
-                  <div class="icon">
-                    <i aria-hidden="true" class="fas fa-phone"></i>
+                  <!-- Section numbers -->
+                  <div class="numbers-items contacts-items">
+                      <div class="numbers-item scrolla-element-anim-1 scroll-animate" data-animate="active">
+                          <div class="icon">
+                              <i aria-hidden="true" class="fas fa-phone"></i>
+                          </div>
+                          <div class="num">176 9115 5321</div>
+                      </div>
+                      <div class="numbers-item scrolla-element-anim-1 scroll-animate" data-animate="active">
+                          <div class="icon">
+                              <i aria-hidden="true" class="fas fa-at"></i>
+                          </div>
+                          <div class="num">gu.yp@qq.com</div>
+                      </div>
+                      <div class="numbers-item scrolla-element-anim-1 scroll-animate" data-animate="active">
+                          <div class="icon">
+                              <i aria-hidden="true" class="fas fa-location-arrow"></i>
+                          </div>
+                          <div class="num">如您所想，本人目前还住在地球</div>
+                      </div>
                   </div>
-                  <div class="num">176 9115 5321</div>
-                </div>
-                <div class="numbers-item scrolla-element-anim-1 scroll-animate" data-animate="active">
-                  <div class="icon">
-                    <i aria-hidden="true" class="fas fa-at"></i>
-                  </div>
-                  <div class="num">gu.yp@qq.com</div>
-                </div>
-                <div class="numbers-item scrolla-element-anim-1 scroll-animate" data-animate="active">
-                  <div class="icon">
-                    <i aria-hidden="true" class="fas fa-location-arrow"></i>
-                  </div>
-                  <div class="num">如您所想，本人目前还住在地球</div>
-                </div>
-              </div>
 
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 vertical-line">
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 vertical-line">
 
-              <!-- contact form -->
-              <div class="contacts-form scrolla-element-anim-1 scroll-animate" data-animate="active">
-                <form id="cform" method="post">
-                  <label>
-                    姓名
-                    <input type="text" name="name" placeholder="请输入您的姓名">
-                  </label>
-                  <label>
-                    邮箱地址
-                    <input type="email" name="email" placeholder="请输入您的邮箱地址">
-                  </label>
-                  <label>
-                    留言
-                    <textarea name="message" placeholder="请输入您的留言，我将第一时间回复您"></textarea>
-                  </label>
-                  <a href="#" class="btn" onclick="$('#cform').submit(); return false;">提交</a>
-                </form>
+                  <!-- contact form -->
+                  <div class="contacts-form scrolla-element-anim-1 scroll-animate" data-animate="active">
+                     <!-- <form action="/cgi/test_cgi" method="post">
+                          <label>
+                              姓名
+                              <input type="text" name="name" placeholder="请输入您的姓名">
+                          </label>
+                          <label>
+                              留言,并留下您的联系方式
+                              <textarea name="message" placeholder="请输入您的留言和联系方式，我将第一时间回复您"></textarea>
+                          </label>
+                          <a href="#" class="btn" onclick="$('#cform').submit(); return false;">Submit</a>
+                     </form>-->
+                     <form action="/cgi/test_cgi" method="POST" accept-charset="UTF-8">
+                         姓名:<br>
+                         <input type="text" name="name" value="" required="required">
+                         <br>
+                         留言及联系方式:<br>
+                         <input type="text" name="message" value="" required="required">
+                         <br><br>
+                         <input type="submit" value="提交">
+                     </form>
+                  </div>
               </div>
-              <div class="alert-success" style="display: none;">
-                  <p>谢谢，我已收到您的留言.</p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-		<!-- Footer -->
-	  <div class="footer">
-      <div class="footer__builder">
-          <div class="header__builder">
-          <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 align-left">
+      <!-- Footer -->
+      <div class="footer">
+          <div class="footer__builder">
+              <div class="header__builder">
+                  <div class="row">
+                      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 align-left">
 
-              <!-- 推特图标 -->
-              <!--
-              <div class="social-links scrolla-element-anim-1 scroll-animate" data-animate="active">
-                <a target="_blank" rel="nofollow" href="javascript:;">
-                  <i aria-hidden="true" class="fab fa-twitter"></i>
-                </a>
-                <a target="_blank" rel="nofollow" href="javascript:;">
-                  <i aria-hidden="true" class="fab fa-dribbble"></i>
-                </a>
-                <a target="_blank" rel="nofollow" href="javascript:;">
-                  <i aria-hidden="true" class="fab fa-behance"></i>
-                </a>
+                          <!-- 推特图标 -->
+                          <!--
+                              <div class="social-links scrolla-element-anim-1 scroll-animate" data-animate="active">
+                              <a target="_blank" rel="nofollow" href="javascript:;">
+                              <i aria-hidden="true" class="fab fa-twitter"></i>
+                              </a>
+                              <a target="_blank" rel="nofollow" href="javascript:;">
+                              <i aria-hidden="true" class="fab fa-dribbble"></i>
+                              </a>
+                              <a target="_blank" rel="nofollow" href="javascript:;">
+                              <i aria-hidden="true" class="fab fa-behance"></i>
+                              </a>
+                              </div>
+                          -->
+
+                      </div>
+                      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 align-center">
+                          <div class="copyright-text scrolla-element-anim-1 scroll-animate" data-animate="active">Copyright &copy; 2022 @ Hello Gu.简历<!--<a target="_blank" href="URL">简历</a>--></div>
+                      </div>
+                      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 align-right">
+                          <div class="copyright-text scrolla-element-anim-1 scroll-animate" data-animate="active"><!--Developed by --><strong><!--beshleyua--></strong></div>
+                      </div>
+                  </div>
               </div>
-              -->
-
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 align-center">
-            <div class="copyright-text scrolla-element-anim-1 scroll-animate" data-animate="active">Copyright &copy; 2022 @ Hello Gu.简历<!--<a target="_blank" href="URL">简历</a>--></div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 align-right">
-                <div class="copyright-text scrolla-element-anim-1 scroll-animate" data-animate="active"><!--Developed by --><strong><!--beshleyua--></strong></div>
-            </div>
           </div>
-        </div>
       </div>
-    </div>
 
-	</div>
+          </div>
 
-	<!-- cursor -->
-	<div class="cursor"></div>
+          <!-- cursor -->
+          <div class="cursor"></div>
 
-  <script src="static/js/jquery.min.js"></script>
-  <script src="static/js/jquery.validate.min.js"></script>
-  <script src="static/js/bootstrap.js"></script>
-  <script src="static/js/swiper.js"></script>
-  <script src="static/js/splitting.js"></script>
-  <script src="static/js/jarallax.min.js"></script>
-  <script src="static/js/magnific-popup.js"></script>
-  <script src="static/js/imagesloaded.pkgd.js"></script>
-  <script src="static/js/isotope.pkgd.js"></script>
-  <script src="static/js/jquery.scrolla.js"></script>
-  <script src="static/js/skrollr.js"></script>
-  <script src="static/js/jquery.cookie.js"></script>
-  <script src="static/js/common.js"></script>
+          <script src="static/js/jquery.min.js"></script>
+          <script src="static/js/jquery.validate.min.js"></script>
+          <script src="static/js/bootstrap.js"></script>
+          <script src="static/js/swiper.js"></script>
+          <script src="static/js/splitting.js"></script>
+          <script src="static/js/jarallax.min.js"></script>
+          <script src="static/js/magnific-popup.js"></script>
+          <script src="static/js/imagesloaded.pkgd.js"></script>
+          <script src="static/js/isotope.pkgd.js"></script>
+          <script src="static/js/jquery.scrolla.js"></script>
+          <script src="static/js/skrollr.js"></script>
+          <script src="static/js/jquery.cookie.js"></script>
+          <script src="static/js/common.js"></script>
 </body>
 </html>

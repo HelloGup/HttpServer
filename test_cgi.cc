@@ -1,3 +1,4 @@
+#include "Util.hpp"
 #include <iostream>
 #include <stdlib.h>
 #include <sstream>
@@ -80,13 +81,25 @@ int main(){
     std::string val2;
     CutString(str2,key2,val2,"=");
 
-    //给对端发送：子进程的标准输出已经重定向为管道了 此时cout就是往管道里写数据
-    std::cout << key1 << ":" << val1 << std::endl;
-    std::cout << key2 << ":" << val2 << std::endl;
-    
-    //标准错误打印处理测试下
-    //std::cerr << key1 << " " << val1 << std::endl;
-    //std::cerr << key2 << " " << val2 << std::endl;
+    //解码
+    val1 = Util::UrlDecode(val1.c_str());
+    val2 = Util::UrlDecode(val2.c_str());
+    //标准错误打印测试
+    std::cerr << key1 << ":" << val1 << std::endl;
+    std::cerr << key2 << ":" << val2 << std::endl;
+   
+
+    std::string echo = "<html>\
+                        <head>\
+                        <meta charset=\"UTF-8\">\
+                        </head>\
+                        <body>\
+                        <h1>谢谢，我已收到您的留言，并尽快给您回复</h1>\
+                        </body>\
+                        </html>";
+
+    //给客户端发送：子进程的标准输出已经重定向为管道了 此时cout就是往管道里写数据
+    std::cout << echo << std::endl;
 
     return 0;
 }

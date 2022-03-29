@@ -14,8 +14,6 @@ class Task{
 
     //调用回调函数
     void PrcessOn(){
-        LOG(INFO,"task call callback.");
-        
         handler(sock);
     }
 
