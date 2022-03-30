@@ -83,70 +83,97 @@ class Util{
             return false;
         }
         
-        //二进制转进制
-        static unsigned char ToHex(unsigned char x)   
-        {   
-            return  x > 9 ? x + 55 : x + 48;   
-        }  
-          
-        static unsigned char FromHex(unsigned char x)   
-        {   
-            unsigned char y = 0;  
-            if (x >= 'A' && x <= 'Z'){
-                y = x - 'A' + 10;  
-            } 
-            else if (x >= 'a' && x <= 'z'){
-                y = x - 'a' + 10;  
-            } 
-            else if (x >= '0' && x <= '9'){ 
-                y = x - '0';  
-            }
-            else{
-                assert(0);  
-            } 
-            return y;  
-        }  
-          
-        static std::string UrlEncode(const std::string& str)  
-        {  
-            std::string strTemp = "";  
-            size_t length = str.length();  
-            for (size_t i = 0; i < length; i++)  
-            {  
-                if (isalnum((unsigned char)str[i]) ||   
-                        (str[i] == '-') ||  
-                        (str[i] == '_') ||   
-                        (str[i] == '.') ||   
-                        (str[i] == '~'))  
-                    strTemp += str[i];  
-                else if (str[i] == ' ')  
-                    strTemp += "+";  
-                else  
-                {  
-                    strTemp += '%';  
-                    strTemp += ToHex((unsigned char)str[i] >> 4);  
-                    strTemp += ToHex((unsigned char)str[i] % 16);  
-                }  
-            }  
-            return strTemp;  
-        }  
 
-        static std::string UrlDecode(const std::string& str)  
-        {  
-            std::string strTemp = "";  
-            size_t length = str.length();  
-            for (size_t i = 0; i < length; i++)  
-            {  
-                if (str[i] == '+') strTemp += ' ';  
-                else if (str[i] == '%')  
-                {  
-                    assert(i + 2 < length);  
-                    unsigned char high = FromHex((unsigned char)str[++i]);  
-                    unsigned char low = FromHex((unsigned char)str[++i]);  
-                    strTemp += high*16 + low;  
-                }  
-                else strTemp += str[i];  
-            }  
-            return strTemp;  
+        //4位二进制转16进制字符形式
+        static unsigned char ToHex(unsigned char str)   
+        {
+            //大于9就是'A'-'F'，<=9就是'0'-'9'
+            return str > 9 ? str + 55:str + 48;
+        }
+
+
+        //urlcode -> 4位二进制
+        static unsigned char FromHex(unsigned char str)   
+        {
+            unsigned char y = 0;
+            str = toupper(str);
+            //A'-'F'转为对应十进制数字
+            if(str >= 'A' && str <= 'F'){
+                y = str - 'A' + 10;  
+            }
+            //'0'-'9'转为对应十进制数字
+            else if(str >= '0' && str <='9'){
+                y = str - '0';
+            }
+            //超过15的字符是错误字符，16进制一位不可能超过15
+            else{
+                LOG(ERROR,"data error.");
+            }
+            return y;
+        }
+
+        //编码规则：
+        //1. 字母数字字符 "a" 到 "z"、"A" 到 "Z" 和 "0" 到 "9" 保持不变。
+        //2. 特殊字符 "."、"-"、"*" 和 "_" 保持不变。
+        //3. 空格字符 " " 转换为一个加号 "+"。
+        //4. 所有其他字符都是不安全的，因此首先使用一些编码机制将它们转换为一个或多个字节。
+        //然后每个字节用一个包含 3 个字符的字符串 "%xy" 表示，其中 xy 为该字节的两位十六进制表示形式。
+        //推荐的编码机制是 UTF-8。
+        
+        //url编码
+        static std::string UrlEncode(const std::string& str)  
+        {
+            std::string tmp;
+            for(size_t i = 0;i < str.size();i++)
+            {
+                unsigned char ch = 0;
+                //字母数字等不编码
+                if(isalnum(str[i]) || str[i] == '.' || str[i] == '-' || str[i] == '*' || str[i] == '='){
+                   tmp += ch; 
+                }
+                //空格替换为'+'
+                else if(str[i] == ' '){
+                    tmp += '+';
+                }
+                //其他字符编码为 %xx 类型字符串
+                else{
+                    tmp += '%';
+                    //高四位编码
+                    tmp += ToHex(str[i] >> 4);
+                    //低四位编码
+                    tmp += ToHex(str[i] & 0xf);
+                }
+            }
+            return tmp;
+        }
+
+        //url解码
+        static std::string UrlDecode(const std::string& str)
+        {
+            std::string tmp;
+            for(size_t i = 0;i < str.size();i++){
+                //遇% 后面的两位解码
+                if(str[i] == '%'){
+                    if(i + 2 >= str.size()){
+                        return nullptr;
+                    }
+                    //解码第一个字符 是高4位的16进制字符
+                    unsigned char h = FromHex(str[++i]) << 4;
+                    //解码第二个字符 是低四位的16进制字符
+                    unsigned char l = FromHex(str[++i]);
+                    //合并为一个字符
+                    tmp += h+l;
+                } 
+                //+替换为字符
+                else if(str[i] == '+'){
+                    tmp += ' ';
+                }
+                //其他都是不转码的 直接追加
+                else{
+                    tmp += str[i];
+                }
+            }
+
+            return tmp;
         }
 };

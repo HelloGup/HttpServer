@@ -66,6 +66,8 @@ int main(){
     //a=100&c=200
     std::string query_string; 
     GetQueryString(query_string);
+    std::cerr << query_string << std::endl;
+    query_string = Util::UrlDecode(query_string.c_str());
 
     //解析为多个参数
     std::string str1;
@@ -82,13 +84,10 @@ int main(){
     CutString(str2,key2,val2,"=");
 
     //解码
-    val1 = Util::UrlDecode(val1.c_str());
-    val2 = Util::UrlDecode(val2.c_str());
     //标准错误打印测试
     std::cerr << key1 << ":" << val1 << std::endl;
     std::cerr << key2 << ":" << val2 << std::endl;
    
-
     std::string echo = "<html>\
                         <head>\
                         <meta charset=\"UTF-8\">\
