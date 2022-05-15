@@ -166,7 +166,7 @@ class EndPoint{
                 line.resize(line.size()-1);
 
                 //打印个别报头查看
-                if(line.find("Host") != std::string::npos){
+                /*if(line.find("Host") != std::string::npos){
                     LOG(INFO,line);
                 }
                 else if(line.find("User-Agent") != std::string::npos){
@@ -175,6 +175,7 @@ class EndPoint{
                 else if(line.find("Referer") != std::string::npos){
                     LOG(INFO,line);
                 }
+                */
 
                 http_Request.request_header.push_back(line);
             }
@@ -252,7 +253,6 @@ class EndPoint{
                         break;
                     }
                 }
-                LOG(INFO,"正文：\n" + body);
             }
 
             return stop;

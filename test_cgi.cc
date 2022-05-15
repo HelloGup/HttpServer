@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <sstream>
 #include <unistd.h>
+#include "mysqlUtil.hpp"
 
 //获取参数
 bool GetQueryString(std::string& query_string){
@@ -61,12 +62,13 @@ int CutString(std::string& target,std::string& out1,std::string& out2,const std:
     }
 }
 
+
 int main(){
     //获取参数
     //a=100&c=200
     std::string query_string; 
     GetQueryString(query_string);
-    std::cerr << query_string << std::endl;
+    //std::cerr << query_string << std::endl;
     query_string = Util::UrlDecode(query_string.c_str());
 
     //解析为多个参数
@@ -85,9 +87,24 @@ int main(){
 
     //解码
     //标准错误打印测试
-    std::cerr << key1 << ":" << val1 << std::endl;
-    std::cerr << key2 << ":" << val2 << std::endl;
+
+    //std::cerr << key1 << ":" << val1 << std::endl;
+    //std::cerr << key2 << ":" << val2 << std::endl;
    
+    
+    MYSQL* my = ConnectMysql();
+
+    std::string sql = "insert into httpMsg (name,msg,msgTime) values (\'";
+    sql += val1;
+    sql += "\',\'";
+    sql += val2;
+    sql += "\',";
+    sql += "now());";
+
+    InsertMysql(my,sql.c_str());
+
+    CloseMysql(my);
+
     std::string echo = "<html>\
                         <head>\
                         <meta charset=\"UTF-8\">\
